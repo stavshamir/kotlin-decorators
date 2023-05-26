@@ -73,35 +73,6 @@ jobs:
           name: allure-results
           path: build/allure-results
 
-      # - name: Upload artifact for deployment job
-      #   uses: actions/upload-artifact@v3
-      #   with:
-      #     name: java-app
-      #     path: '${{ github.workspace }}/target/*.jar'
-
-  # deploy:
-  #   permissions:
-  #     contents: none
-  #   runs-on: ubuntu-latest
-  #   needs: build
-  #   environment:
-  #     name: 'Development'
-  #     url: ${{ steps.deploy-to-webapp.outputs.webapp-url }}
-
-  #   steps:
-  #     - name: Download artifact from build job
-  #       uses: actions/download-artifact@v3
-  #       with:
-  #         name: java-app
-
-  #     - name: Deploy to Azure Web App
-  #       id: deploy-to-webapp
-  #       uses: azure/webapps-deploy@v2
-  #       with:
-  #         app-name: ${{ env.AZURE_WEBAPP_NAME }}
-  #         publish-profile: ${{ secrets.AZURE_WEBAPP_PUBLISH_PROFILE }}
-  #         package: '*.jar'
-
   allure:
     runs-on: ubuntu-latest
     if: always()
@@ -136,7 +107,7 @@ jobs:
 
       - name: Deploy report to Github Pages
         if: always()
-        uses: peaceiris/actions-gh-pages@v2
+        uses: peaceiris/actions-gh-pages@v3
         env:
           PERSONAL_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           PUBLISH_BRANCH: gh-pages
