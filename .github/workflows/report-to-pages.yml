@@ -17,7 +17,7 @@
 # For more information on the Azure Web Apps Deploy action: https://github.com/Azure/webapps-deploy
 # For more samples to get started with GitHub Action workflows to deploy to Azure: https://github.com/Azure/actions-workflow-samples
 
-name: Build and deploy JAR app to Azure Web App
+name: Build and run tests with results at https://apetrovskiy.github.io/kotlin-decorators/
 
 env:
   AZURE_WEBAPP_NAME: your-app-name # set this to the name of your Azure Web App
@@ -44,7 +44,7 @@ jobs:
         with:
           java-version: ${{ env.JAVA_VERSION }}
           distribution: ${{ env.DISTRIBUTION }}
-          cache: "maven"
+          # cache: "maven"
 
       # - name: Build with Maven
       #   run: mvn clean install
@@ -106,15 +106,7 @@ jobs:
     runs-on: ubuntu-latest
     if: always()
     needs:
-      # - build
-      - python
-      - ruby
-      - node
-      - golang
-      - jdk
-      - dotnet
-      - swift
-      - dart
+      - build
     steps:
       - name: Download all workflow run artifacts
         uses: actions/download-artifact@v2
