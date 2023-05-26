@@ -106,15 +106,7 @@ jobs:
     runs-on: ubuntu-latest
     if: always()
     needs:
-      # - build
-      - python
-      - ruby
-      - node
-      - golang
-      - jdk
-      - dotnet
-      - swift
-      - dart
+      - build
     steps:
       - name: Download all workflow run artifacts
         uses: actions/download-artifact@v2
