@@ -1,5 +1,6 @@
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
+import io.qameta.allure.Step
 
 internal class DecoratorsTest {
 
@@ -42,5 +43,33 @@ internal class DecoratorsTest {
         assertEquals(0, decorated(0, 1))
     }
 
+    @Test
+    fun `decorateWith should work correctly with an object`() {
+        @Step("inner: {0}")
+        fun returnObject(f: () -> SomeData): SomeData {
+            return f()
+        }
 
+        @Step("top: {0}")
+        fun decorated(id: Int, name: String) = decorateWith(::returnObject) {
+            SomeData(id,name)
+        }
+
+        assertEquals(SomeData(5,"aaa"), decorated(5, "aaa"))
+    }
+
+    @Test
+    fun `decorateWith should work correctly with an object and extension method`() {
+        @Step("inner: {0}")
+        fun returnObject(f: () -> SomeData): SomeData {
+            return f()
+        }
+
+        @Step("top: {0}")
+        fun SomeData.decorated(test: String) = decorateWith(::returnObject) {
+            this
+        }
+
+        assertEquals(SomeData(5,"aaa"), SomeData(5,"aaa").decorated( "bbb"))
+    }
 }
